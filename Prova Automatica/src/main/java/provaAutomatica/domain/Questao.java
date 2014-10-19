@@ -2,7 +2,14 @@ package provaAutomatica.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Max;
+
+import org.hibernate.validator.constraints.Length;
 
 
 /**
@@ -18,6 +25,7 @@ public class Questao implements Serializable {
 	@Column(name="questao_id")
 	private int questaoId;
 
+	@Length(max=20,message="Valor deve ser menor que 20 caracteres")
 	private String conteudo;
 
 	public Questao() {

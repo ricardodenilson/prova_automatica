@@ -2,6 +2,7 @@ package provaAutomatica.ui;
 
 import java.util.Arrays;
 
+import com.vaadin.addon.beanvalidation.BeanValidationForm;
 import com.vaadin.addon.jpacontainer.JPAContainer;
 import com.vaadin.addon.jpacontainer.JPAContainerFactory;
 import com.vaadin.addon.jpacontainer.fieldfactory.FieldFactory;
@@ -33,7 +34,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements	Property.ValueCh
 
 	private JPAContainer<T> container;
 	private Table table;
-	private Form form;
+	private BeanValidationForm form;
 	private FieldFactory fieldFactory;
 	private Class<T> entityClass;
 	private Button commit;
@@ -106,7 +107,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements	Property.ValueCh
 		deleteButton.setEnabled(false);
 		addComponent(deleteButton, "top:0;right:5px;");
 
-		form = new Form();
+		form = new BeanValidationForm(this.entityClass);
 		form.setVisible(false);
 		form.setWriteThrough(false);
 		form.setCaption(getEntityClass().getSimpleName());
@@ -129,6 +130,8 @@ public class BasicCrudView<T> extends AbsoluteLayout implements	Property.ValueCh
 		form.getFooter().addComponent(discard);
 		form.getLayout().setMargin(true);
 		form.getFooter().setMargin(false, true, false, true);
+		form.validate();
+		form.setValidationVisible(true);
 		((HorizontalLayout) form.getFooter()).setSpacing(true);
 		verticalSplitPanel.addComponent(form);
 		verticalSplitPanel.setSplitPosition(30);
@@ -245,6 +248,7 @@ public class BasicCrudView<T> extends AbsoluteLayout implements	Property.ValueCh
 		container.refresh();
 		if (table.getValue() != null) {
 			// reset form as e.g. referenced containers may have changed
+			form.validate();
 			form.setItemDataSource(table.getItem(table.getValue()));
 		}
 	}
