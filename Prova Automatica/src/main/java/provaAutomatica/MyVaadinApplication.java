@@ -2,11 +2,11 @@ package provaAutomatica;
 
 import java.util.Set;
 
-import javax.persistence.EntityManager;
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.Metamodel;
 
 import provaAutomatica.domain.Person;
+import provaAutomatica.domain.Questao;
 import provaAutomatica.ui.BasicCrudView;
 
 import com.vaadin.Application;
@@ -72,6 +72,11 @@ public class MyVaadinApplication extends Application {
 					view.setVisibleTableProperties("firstName","lastName", "boss");
 					view.setVisibleFormProperties("firstName","lastName", "phoneNumber", "street", "city", "zipCode", "boss");
 				}
+				
+				if(javaType == Questao.class) {
+					view.setVisibleTableProperties("questaoId","conteudo");
+					view.setVisibleFormProperties("conteudo");
+				}
 
 			}
 
@@ -79,38 +84,4 @@ public class MyVaadinApplication extends Application {
 			navTree.setValue(navTree.getItemIds().iterator().next());
 		}
 	}
-
-	static {
-		EntityManager em = JPAContainerFactory
-				.createEntityManagerForPersistenceUnit(PERSISTENCE_UNIT);
-
-		long size = (Long) em.createQuery("SELECT COUNT(p) FROM Person p").getSingleResult();
-		if (size == 0) {
-			// create two Person objects as test data
-
-			em.getTransaction().begin();
-			Person boss = new Person();
-			boss.setFirstName("John");
-			boss.setLastName("Bigboss");
-			boss.setCity("Turku");
-			boss.setPhoneNumber("+358 02 555 221");
-			boss.setZipCode("20200");
-			boss.setStreet("Ruukinkatu 2-4");
-			em.persist(boss);
-
-			Person p = new Person();
-			p.setFirstName("Marc");
-			p.setLastName("Hardworker");
-			p.setCity("Turku");
-			p.setPhoneNumber("+358 02 555 222");
-			p.setZipCode("20200");
-			p.setStreet("Ruukinkatu 2-4");
-			p.setBoss(boss);
-			em.persist(p);
-
-			em.getTransaction().commit();
-		}
-
-	}
-
 }
