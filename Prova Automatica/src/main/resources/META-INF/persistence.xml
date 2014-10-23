@@ -13,6 +13,8 @@
 			<property name="hibernate.connection.username" value="prova" />
 			<property name="hibernate.connection.password" value="prova123" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />
+			
+			<!-- Criar tabela no banco -->
 			<property name="hibernate.hbm2ddl.auto" value="update"/>
 
 			<!-- Exibir SQL log -->
